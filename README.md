@@ -13,14 +13,16 @@ The following features are delivered out of the box in this repo, you are just o
 
 - Vue
 - Vue router
+- Vue auto router
+- Vue router layout
 - Vuex
+- Vuex class component
 - Vue Class Component
 - Typescript
 - PWA - service worker
 - SASS
 - babel
 - Webpack bundling
-- Prettier
 - ESLint
 - cypress
 - jest
