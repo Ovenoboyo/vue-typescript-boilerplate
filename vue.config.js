@@ -3,6 +3,7 @@
 const webpack = require("webpack");
 const MomentLocalesPlugin = require("moment-locales-webpack-plugin"); // for moment tree shaking locales
 const PreloadWebpackPlugin = require("@vue/preload-webpack-plugin");
+const VueAutoRoutingPlugin = require('vue-auto-routing/lib/webpack-plugin')
 
 module.exports = {
   publicPath: "/",
@@ -60,7 +61,7 @@ module.exports = {
           // all other modules modules
           vendors: {
             name: "chunk-vendors",
-            test(module, chunks) {
+            test (module, chunks) {
               // `module.resource` contains the absolute path of the file on disk.
               // Note the usage of `path.sep` instead of / or \, for cross-platform compatibility.
               const path = require("path");
@@ -111,7 +112,14 @@ module.exports = {
             resourceRegExp: /^\.\/locale$/,
             contextRegExp: /moment$/,
           })
-        );
+        )
     }
+
+    config.plugin("auto-routing").use(
+      new VueAutoRoutingPlugin({
+        pages: 'src/pages',
+        importPrefix: '@/pages/'
+      })
+    )
   },
 };

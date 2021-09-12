@@ -1,26 +1,24 @@
-import Vue from "vue";
-import VueRouter, { RouteConfig } from "vue-router";
+import Router from 'vue-router'
+import Vue from 'vue'
+import { createRouterLayout } from 'vue-router-layout'
+import routes from 'vue-auto-routing'
 
-Vue.use(VueRouter);
+Vue.use(Router)
 
-const routes: Array<RouteConfig> = [
-  {
-    path: "/",
-    name: "Home",
-    component: () => import(/* webpackChunkName: "home" */ "@/pages/Home.vue"), //dynamic import of component and dependency
-  },
-  {
-    path: "/about",
-    name: "About",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "@/pages/About.vue"), //dynamic import of component and dependency
-  },
-];
+const RouterLayout = createRouterLayout((layout) => {
+  return import('@/layouts/' + layout + '.vue')
+})
 
-const router = new VueRouter({
-  mode: "history",
+console.log(routes)
+
+export default new Router({
+  mode: process.env.IS_ELECTRON ? 'hash' : 'history',
   base: process.env.BASE_URL,
-  routes,
-});
-
-export default router;
+  routes: [
+    {
+      path: '/',
+      component: RouterLayout,
+      children: routes,
+    },
+  ]
+})
