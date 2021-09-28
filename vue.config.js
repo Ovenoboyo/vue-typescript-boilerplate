@@ -6,7 +6,8 @@ const MomentLocalesPlugin = require("moment-locales-webpack-plugin"); // for mom
 const PreloadWebpackPlugin = require("@vue/preload-webpack-plugin");
 const VueAutoRoutingPlugin = require('vue-auto-routing/lib/webpack-plugin')
 
-const PreloadPlugin = new PreloadWebpackPlugin(
+const HtmlWebpackPluginInstance = new HtmlWebpackPlugin()
+const PreloadPluginInstance = new PreloadWebpackPlugin(
   {
     rel: "prefetch",
     include: "asyncChunks",
@@ -28,8 +29,15 @@ module.exports = {
   productionSourceMap: process.env.NODE_ENV !== "production",
   crossorigin: "use-credentials",
   lintOnSave: true,
-  configureWebpack: {
-    plugins: [new HtmlWebpackPlugin(), PreloadPlugin]
+
+  configureWebpack: (config) => {
+    config.plugins.push(HtmlWebpackPluginInstance, PreloadPluginInstance)
+
+    if (process.env.NODE_ENV === "development") {
+      config.devtool = "source-map";
+    } else if (process.env.NODE_ENV === "test") {
+      config.devtool = "cheap-module-eval-source-map";
+    }
   },
 
   chainWebpack: (config) => {
