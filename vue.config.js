@@ -1,9 +1,26 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-var-requires */
 const webpack = require("webpack");
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MomentLocalesPlugin = require("moment-locales-webpack-plugin"); // for moment tree shaking locales
 const PreloadWebpackPlugin = require("@vue/preload-webpack-plugin");
 const VueAutoRoutingPlugin = require('vue-auto-routing/lib/webpack-plugin')
+
+const PreloadPlugin = new PreloadWebpackPlugin(
+  {
+    rel: "prefetch",
+    include: "asyncChunks",
+    // do not prefetch async routes
+    fileBlacklist: [/myasyncRoute(.)+?\.js$/, /\.map$/],
+  },
+  {
+    rel: "preload",
+    include: "initial",
+    fileWhitelist: [/(^@vue)(.*)(\.js$)/, /(^vue)(.*)(\.js$)/],
+    // do not preload map files or hot update files
+    fileBlacklist: [/\.map$/, /hot-update\.js$/],
+  },
+)
 
 module.exports = {
   publicPath: "/",
@@ -11,13 +28,10 @@ module.exports = {
   productionSourceMap: process.env.NODE_ENV !== "production",
   crossorigin: "use-credentials",
   lintOnSave: true,
-  configureWebpack: (config) => {
-    if (process.env.NODE_ENV === "development") {
-      config.devtool = "source-map";
-    } else if (process.env.NODE_ENV === "test") {
-      config.devtool = "cheap-module-eval-source-map";
-    }
+  configureWebpack: {
+    plugins: [new HtmlWebpackPlugin(), PreloadPlugin]
   },
+
   chainWebpack: (config) => {
     // for moment tree shaking locales
     config.resolve.alias.set("moment", "moment/moment.js");
@@ -30,21 +44,6 @@ module.exports = {
       // By default vue-cli sets rel=prefetch on chunks-vendor.js and app.js in the index.html that gets generated in index.html.
       // This setting removes vue-cli's this default so we can use more chunks and let them be loaded dynamically.
       config.plugins.delete("prefetch");
-      config.plugin("prefetch").use(PreloadWebpackPlugin, [
-        {
-          rel: "prefetch",
-          include: "asyncChunks",
-          // do not prefetch async routes
-          fileBlacklist: [/myasyncRoute(.)+?\.js$/, /\.map$/],
-        },
-        {
-          rel: "preload",
-          include: "initial",
-          fileWhitelist: [/(^@vue)(.*)(\.js$)/, /(^vue)(.*)(\.js$)/],
-          // do not preload map files or hot update files
-          fileBlacklist: [/\.map$/, /hot-update\.js$/],
-        },
-      ]);
 
       // override vue's default chunks because their chunking is too big.
       config.optimization.delete("splitChunks");

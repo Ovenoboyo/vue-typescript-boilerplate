@@ -16,6 +16,7 @@ module.exports = {
     "vue/component-name-in-template-casing": ["error", "PascalCase"],
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
+    "no-undef": "off"
   },
   overrides: [
     {

@@ -7,14 +7,14 @@ export class DemoStore extends VuexModule.With({ namespaced: 'demo' }) {
     private lastname = "Olofinjana";
     specialty = "JavaScript";
 
-    @mutation clearName() {
+    @mutation clearName(): void {
         this.firstname = "";
         this.lastname = "";
     }
 
-    @action async doSomethingAsync() { return 20 }
+    @action async doSomethingAsync(): Promise<number> { return 20 }
 
-    get fullname() {
+    get fullname(): string {
         return this.firstname + " " + this.lastname;
     }
 
@@ -24,7 +24,7 @@ export class DemoStore extends VuexModule.With({ namespaced: 'demo' }) {
         this.lastname = names[1];
     }
 
-    get bio() {
+    get bio(): string {
         return `Name: ${this.fullname} Specialty: ${this.specialty}`;
     }
 }
