@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <Navbar />
-    <h1>Vue Boilerplates</h1>
+    <h1>{{ exampleVar }} Vue Boilerplates</h1>
     <h3>vue-typescript-boilerplate</h3>
     <img width="130px" height="auto" alt="" src="/img/vue-boilerplates.svg" />
     <h3>Vue + Typescript + Lazy loading and code splitting</h3>
@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "@/utils/vue-imports";
+import { Vue, Component } from "vue-property-decorator";
 import Navbar from "@/components/Navbar.vue";
 
 @Component({
@@ -42,7 +42,9 @@ import Navbar from "@/components/Navbar.vue";
     Navbar,
   },
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+  private exampleVar: ExampleTypeDefinition = "Hello";
+}
 </script>
 
 <style scoped>

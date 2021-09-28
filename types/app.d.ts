@@ -1,1 +1,1 @@
-type ExampleTypeDefinition = {}
+type ExampleTypeDefinition = 'Hello'
