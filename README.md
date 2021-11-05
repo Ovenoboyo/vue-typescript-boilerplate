@@ -25,10 +25,6 @@ The following features are delivered out of the box in this repo, you are just o
 - gitignore
 - VScode Workspace (optional)
 
-## Bonus
-**Lazy loading and Code Splitting**  
-With dynamic imports, all pages including their dependency libraries are exported as web chunks with custom name references for lazy loading :sunglasses:  
-Even Vue library was exported as a seperate web chunk :heart_eyes:
 
 ## Getting started
 
