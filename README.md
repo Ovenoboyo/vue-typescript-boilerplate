@@ -34,7 +34,7 @@ Even Vue library was exported as a seperate web chunk :heart_eyes:
 
 ```bash
 # 1. Clone the repository.
-git clone https://github.com/Vue-Boilerplates/vue-typescript-boilerplate.git my-new-project
+git clone https://github.com/Ovenoboyo/vue-typescript-boilerplate my-new-project
 
 # 2. Enter your newly-cloned folder.
 cd my-new-project
